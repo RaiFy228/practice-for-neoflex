@@ -1,26 +1,33 @@
 package ru.neoflex.practice.controller;
 
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.web.servlet.MockMvc;
 
+import static org.hamcrest.core.IsEqual.equalTo;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+@SpringBootTest
+@AutoConfigureMockMvc
 public class CalcControllerTest {
-    private CalcController calculator;
-    @BeforeEach
-    void setUp() { //Создание калькулятора перед каждым тестом
-        calculator = new CalcController();
-    }
+    @Autowired
+    private MockMvc mockMvc;
 
     @Test //Тест суммы калькулятора
-    void plus() {
-        int sum = calculator.plus(1,2);
-        Assertions.assertEquals(3, sum);
-
+    public void plus() throws Exception{
+        mockMvc.perform(get("/plus/1/2"))
+                .andExpect(status().isOk())
+                .andExpect(content().string(equalTo("3")));
     }
 
     @Test //Тест разности калькулятора
-    void minus() {
-        int dif = calculator.minus(2,1);
-        Assertions.assertEquals(1, dif);
+    public void minus() throws Exception{
+        mockMvc.perform(get("/minus/1/3"))
+                .andExpect(status().isOk())
+                .andExpect(content().string(equalTo("-2")));
     }
 }

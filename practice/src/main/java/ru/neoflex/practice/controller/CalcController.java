@@ -9,10 +9,9 @@ import java.util.List;
 
 @RestController
 public class CalcController {
-    @Autowired
     private CalculationRepository calculationRepository;
     private Calculation calculation;
-    public int result = 0;
+    private int result;
 
     //Метод суммы
     @GetMapping("/plus/{a}/{b}")
@@ -30,8 +29,10 @@ public class CalcController {
         calculationRepository.save(calculation);
         return result;
     }
+
     @GetMapping("/calculations")
     public List <Calculation> getAllCalculations(){
         return calculationRepository.findAll();
     }
+
 }
